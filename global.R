@@ -48,7 +48,7 @@ if (file.exists(latest_rdata)) {
   message("Cleanup data")
   d <- dfull %>%
     # filter Mediterranean data
-    # TODO change this to process all data or only California data
+    # NB: change this to process all data or only California data
     filter(str_detect(image_name, "2013-07")) %>%
     # rename some columns
     rename(x=p0_x, y=p0_y, classif_datetime=created_at) %>%
@@ -57,7 +57,7 @@ if (file.exists(latest_rdata)) {
       # round classification date+time into just the date
       classif_date=as.Date(classif_datetime),
       # get image capture date+time from its name
-      # TODO the format of this would change for California data
+      # NB: the format of this would change for California data
       image_datetime=ymd_hms(str_sub(image_name, 1, 19))
     )
 
@@ -68,7 +68,7 @@ if (file.exists(latest_rdata)) {
     arrange(desc(n)) %>% mutate(user_name=factor(user_name, levels=user_name))
 
   # add a score inversely proportional to the number of classif per user
-  # NB: use sqrt() to reduce the dominance of the most proficient users but still make them important
+  # use sqrt() to reduce the dominance of the most proficient users but still make them important
   d <- left_join(d, mutate(dwho, score=sqrt(n)) %>% select(user_name, score), by="user_name")
 
   message("Compute concensus identifications")

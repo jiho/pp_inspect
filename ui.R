@@ -45,7 +45,7 @@ fluidPage(
 
       # inspect effort in terms of number of users per frame
       tabPanel("Effort",
-        p("NB: this is a bit long to compte. Please wait."),
+        p("This is a bit long to compte. Please wait."),
         plotOutput("p_effort"),
         div()
       ),
