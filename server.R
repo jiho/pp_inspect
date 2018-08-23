@@ -1,3 +1,8 @@
+#
+# Define the interactive functions that power the app and connect to the UI
+#
+# (c) 2018 Jean-Olivier Irisson, GNU General Public License v3
+
 server <- function(input, output, session) {
 
   # Subset data based on the selected date range
@@ -55,7 +60,7 @@ server <- function(input, output, session) {
       labs(y="Nb of classifications", x="User name")
   })
 
-  # Inspect effort (number os )
+  # Inspect effort (number of users per image)
   output$p_effort <- renderPlot({
     dd <- filter_d() %>%
       # count number of users per frame, note if frame is empty or not
@@ -75,7 +80,7 @@ server <- function(input, output, session) {
 
   # Inspect results
   # compute height of plot dynamically, to accomodate several species
-  transect_plot_height <- reactive({
+  p_transects_height <- reactive({
     length(input$species) * 200 + 50
   })
   # plot distribution of various species in space
@@ -90,5 +95,5 @@ server <- function(input, output, session) {
       p <- p + geom_density2d()
     }
     p
-  }, height=transect_plot_height)
+  }, height=p_transects_height)
 }

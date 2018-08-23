@@ -3,8 +3,7 @@
 #
 # (c) 2018 Jean-Olivier Irisson, GNU General Public License v3
 
-fluidPage(theme=shinytheme("simplex"),
-
+fluidPage(
   # allows HTML element to span a few columns
   # (used for checkboxes)
   tags$head(
@@ -46,6 +45,7 @@ fluidPage(theme=shinytheme("simplex"),
 
       # inspect effort in terms of number of users per frame
       tabPanel("Effort",
+        p("NB: this is a bit long to compte. Please wait."),
         plotOutput("p_effort"),
         div()
       ),
