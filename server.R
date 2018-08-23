@@ -44,20 +44,31 @@ server <- function(input, output, session) {
   })
 
   # Inpect users
-  output$p_who <- renderPlot({
-    dd <- filter_d() %>%
+  data_who <- reactive({
+    filter_d() %>%
       # count classifs per user
       group_by(user_name) %>% summarise(n=n()) %>% ungroup() %>%
       # shorten user names
       mutate(user=str_trunc(user_name, 15)) %>%
       # sort in descending order
-      arrange(desc(n)) %>% mutate(user=factor(user, levels=user_name, labels=user))
-
+      arrange(desc(n)) %>% mutate(user=factor(user_name, levels=user_name, labels=user)) %>%
+      # subset by minimum number of classif
+      filter(n>input$minn)
+  })
+  output$p_who <- renderPlot({
+    dw <- data_who()
     # plot result
-    ggplot(filter(dd, n>input$minn)) +
+    ggplot(dw) +
       geom_col(aes(x=user, y=n)) +
       theme(axis.text.x=element_text(angle=30, hjust=1)) +
       labs(y="Nb of classifications", x="User name")
+  })
+  output$t_who <- renderText({
+    dd <- filter_d()
+    dw <- data_who()
+    tot <- nrow(dd)
+    by_these <- sum(dw$n)
+    paste0(by_these, " classifications made by these users, which is ", round(by_these/tot*100), "% of total")
   })
 
   # Inspect effort (number of users per image)

@@ -40,6 +40,7 @@ fluidPage(
       tabPanel("Users",
         sliderInput("minn", label="Display only users with more than this number of classifications", min=100, max=10000, step=100, value=1000),
         plotOutput("p_who"),
+        verbatimTextOutput("t_who"),
         div()
       ),
 
