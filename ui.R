@@ -57,10 +57,11 @@ fluidPage(
           column(8, class="multicol", checkboxGroupInput("species", "Plot species", choices=species, selected="copepod")),
           column(2, selectInput("geom", "Plot as", choices=c("Points", "Density", "Both"), selected="Both"))
         ),
-        fluidRow(column(12,
-          plotOutput("p_transects"),
-          div()
-        ))
+        fluidRow(column(12, plotOutput("p_transects", height="auto"))),
+        fluidRow(
+          column(6, h4("Stats per transect"), tableOutput("t_transects_t")),
+          column(6, h4("Stats per species"), tableOutput("t_transects_s"))
+        )
       )
     )
   ))

@@ -96,4 +96,13 @@ server <- function(input, output, session) {
     }
     p
   }, height=p_transects_height)
+  # compute stats for classifications
+  output$t_transects_t <- renderTable({
+    dd <- filter_dmeta()
+    dd %>% group_by(transect) %>% summarise(n_organisms=n(), n_images=length(unique(image_name))) %>% ungroup()
+  }, striped=T, spacing="xs")
+  output$t_transects_s <- renderTable({
+    dd <- filter_dmeta()
+    dd %>% group_by(species) %>% summarise(n_organisms=n(), n_images=length(unique(image_name))) %>% ungroup()
+  }, striped=T, spacing="xs")
 }
